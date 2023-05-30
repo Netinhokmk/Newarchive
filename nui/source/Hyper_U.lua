@@ -79,18 +79,20 @@ cache = {
     image = dxDrawImage;
     rectangle = dxDrawRectangle;
     data = getElementData;
+    setData = setElementData;
+    timer = setTimer;
+    random = math.random;
     floor = math.floor;
 }
 
 
-cache.functions.register =
+cache['functions'].register =
 function(event, ...)
     _event(event, true)
     _eventH(event, ...)
 end
 
-cache.functions.Cursor = 
-function(x,y,w,h)
+cache['functions'].Cursor = function(x,y,w,h)
     local x, y, w, h = aToR(x, y, w, h)
     if isCursorShowing() then
         local mx, my = getCursorPosition()
@@ -104,73 +106,45 @@ function(x,y,w,h)
     end
 end
 
-cache.functions.Redondo = 
-function(x, y, rx, ry, color, radius)
-    rx = rx - radius * 2
-    ry = ry - radius * 2
-    x = x + radius
-    y = y + radius
-    if (rx >= 0) and (ry >= 0) then
-        dxDrawRectangle(x, y, rx, ry, color)
-        dxDrawRectangle(x, y - radius, rx, radius, color)
-        dxDrawRectangle(x, y + ry, rx, radius, color)
-        dxDrawRectangle(x - radius, y, radius, ry, color)
-        dxDrawRectangle(x + rx, y, radius, ry, color)
-        dxDrawCircle(x, y, radius, 180, 270, color, color, 7)
-        dxDrawCircle(x + rx, y, radius, 270, 360, color, color, 7)
-        dxDrawCircle(x + rx, y + ry, radius, 0, 90, color, color, 7)
-        dxDrawCircle(x, y + ry, radius, 90, 180, color, color, 7)
-    end
-end
 
-local moneySuff = {"K", "M", "B", "T", "Q"}
+local moneySuff = {'K', 'M', 'B', 'T', 'Q'}
 
 
-cache.functions.Convert = 
-function(cMoney)
+cache['functions'].Convert = function(cMoney)
     didConvert = 0
     if not cMoney then
-        return "?"
+        return '?'
     end
     while cMoney / 1000 >= 1 do
         cMoney = cMoney / 1000
         didConvert = didConvert + 1
     end
     if didConvert > 0 then
-        return "R$ " .. string.format("%.2f", cMoney) .. moneySuff[didConvert]
+        return 'R$ ' .. string.format('%.2f', cMoney) .. moneySuff[didConvert]
     else
-        return "R$ " .. cMoney
+        return 'R$ ' .. cMoney
     end
 end
 
-cache.functions.RemoveHex = 
-function(str) 
-    return str:gsub("#%x%x%x%x%x%x", "") 
+cache['functions']['RemoveHex'] = function(str) 
+    return str:gsub('#%x%x%x%x%x%x', '') 
 end 
 
-DrawCenter = 
-function(text, x, y, w, h, color, scale, font)
-    local Width = dxGetTextWidth(text, scale, font)
-    local Height = dxGetFontHeight(scale, font)
-    local PosX = (x + (w/2)) - (Width/2)
-    local PosY = (y + (h/2)) - (Height/2)
-    dxDrawText(text, PosX, PosY, 0, 0, color, scale, font)
-end
 
-getPlayerID = function(id)
+cache['functions']['getPlayerID'] = function(id)
     for i, v in ipairs(getElementsByType('player')) do
-        if ( getElementData(v, 'ID') or 'N/A') == tonumber(id) then
+        if ( getElementData(v, 'ID') or 'N/A') == tonumber( id ) then
             return v
         end
     end
     return false
 end
 
-cache.functions.Acltable = 
-function(player,acls)
+
+cache['functions']['Acltable'] = function(player,acls)
     for i,v in ipairs(acls) do
         if aclGetGroup(v) then
-            if isObjectInACLGroup("user."..getAccountName(getPlayerAccount(player)), aclGetGroup(v)) then
+            if isObjectInACLGroup('user.'..getAccountName(getPlayerAccount(player)), aclGetGroup(v)) then
                 return true
             end
         end
@@ -178,27 +152,24 @@ function(player,acls)
     return false
 end
 
-cache.functions.ConverTerTimer = 
-function(sec)
-    iprint()
+cache['functions']['ConverTerTimer'] = function(sec)
     local temp = sec/60 
     local temp2 = (math.floor(temp)) 
     local temp3 = sec-(temp2*60) 
     if string.len(temp3) < 2 then 
-        temp3 = "0"..tostring(temp3) 
+        temp3 = '0'..tostring(temp3) 
     end 
-    return tostring(temp2)..":"..tostring(temp3) 
+    return tostring(temp2)..':'..tostring(temp3) 
 end 
 
-cache.functions.ConvertTimerSeconds = 
-function(timer)
+cache['functions']['ConvertTimerSeconds'] = function(timer)
     if isTimer(timer) then
         local ms = getTimerDetails(timer)
         local m = math.floor(ms/60000)
         local s = math.floor((ms-m*60000)/1000)
-        if m < 10 then m = "0"..m end
-        if s < 10 then s = "0"..s end
-        return m..":"..s
+        if m < 10 then m = '0'..m end
+        if s < 10 then s = '0'..s end
+        return m..':'..s
     end
 end
 
@@ -207,7 +178,7 @@ local eventos = { }
 
 function addEventHandler(event, element, handler)
     funcname = tostring(handler)
-    if event == "onClientRender" then 
+    if event == 'onClientRender' then 
         if not eventos[tostring(event)] then
             eventos[tostring(event)] = {}
         end 
@@ -222,7 +193,7 @@ end
 _removeEventHandler_ = removeEventHandler 
 
 function removeEventHandler(event, element, handler)
-    if event == "onClientRender" then 
+    if event == 'onClientRender' then 
         if eventos[tostring(event)] and eventos[tostring(event)][tostring(handler)] and eventos[tostring(event)][tostring(handler)][element] then 
             eventos[tostring(event)][tostring(handler)][root] = nil
         end
@@ -230,10 +201,10 @@ function removeEventHandler(event, element, handler)
     return _removeEventHandler_(event, element, handler)
 end
 
-cache.functions.EventoAtivo = function ( func )
+cache['functions'].EventoAtivo = function ( func )
     if type( func ) == 'function' then
         func = tostring(func)
-        if eventos["onClientRender"] and eventos["onClientRender"][func] and eventos["onClientRender"][func][root] and type(eventos["onClientRender"][func][root]) == "boolean" then 
+        if eventos['onClientRender'] and eventos['onClientRender'][func] and eventos['onClientRender'][func][root] and type(eventos['onClientRender'][func][root]) == 'boolean' then 
             return true
         end
     end
@@ -256,24 +227,24 @@ getVehicleProx = function(player, dist, type_action)
 end
 
 
-cache.functions.getAclPlayer = 
+cache['functions'].getAclPlayer = 
 function(player,acl)
     if aclGetGroup ( acl ) then
-        if isObjectInACLGroup("user." ..getAccountName(getPlayerAccount(player)), aclGetGroup(acl)) then
+        if isObjectInACLGroup('user.' ..getAccountName(getPlayerAccount(player)), aclGetGroup(acl)) then
             return true
         end
     else
-        outputDebugString ( "O Sistema não identificou a acl "..acl..", por favor crie a acl informada!", 3,5,162,238 ) 
+        outputDebugString ( 'O Sistema não identificou a acl '..acl..', por favor crie a acl informada!', 3,5,162,238 ) 
     end
     return false
 end
 
-cache.functions.resultAcls = 
+cache['functions'].resultAcls = 
 function(player,acl)
     result = 0
-    for i, players in ipairs (getElementsByType("player")) do
+    for i, players in ipairs (getElementsByType('player')) do
         if not aclGetGroup ( acl ) then 
-            outputDebugString ( "O Sistema não identificou a acl "..acl..", por favor crie a acl informada!", 3,5,162,238 ) 
+            outputDebugString ( 'O Sistema não identificou a acl '..acl..', por favor crie a acl informada!', 3,5,162,238 ) 
             return
         end
         tableacl = aclGroupListObjects(aclGetGroup(acl))
@@ -286,7 +257,7 @@ end
 
 fonts = {}
 
-cache.functions.getFont = 
+cache['functions'].getFont = 
 function (dir, size, ...)
     if fileExists(dir) and tonumber(size) then
         if not fonts[dir] then
@@ -299,7 +270,7 @@ function (dir, size, ...)
             return fonts[dir][size];
         end
     end
-    return "default";
+    return 'default';
 end
 
 ------ EditBox
@@ -318,18 +289,18 @@ function createEditBox (identify, x, y, width, height, options, postGUI)
 
     if not editbox.elements[identify] then
         editbox.elements[identify] = {
-            text = "";
+            text = '';
             position = {x, y, width, height};
          --    colors = colors or {text = {255, 255, 255, 255}, selected = {139, 0, 255, 75}};
             options = {
                 using = options.using;
-                font = options.font or "default";
+                font = options.font or 'default';
                 masked = options.masked or false;
                 onlynumber = options.onlynumber or false;
-                textalign = options.textalign or "center";
+                textalign = options.textalign or 'center';
                 maxcharacters = options.maxcharacters or 32;
-                othertext = options.othertext or "Digite aqui";
-                cache_othertext = options.othertext or "Digite aqui";
+                othertext = options.othertext or 'Digite aqui';
+                cache_othertext = options.othertext or 'Digite aqui';
                 text = options.text; 
                 selected = options.selected;
             };
@@ -339,10 +310,10 @@ function createEditBox (identify, x, y, width, height, options, postGUI)
         }
 
         if next (editbox.elements) and not editbox.events then
-            addEventHandler ("onClientKey", getRootElement (), onClientKeyEditBox)
-            addEventHandler ("onClientClick", getRootElement (), onClientClickEditBox)
-            addEventHandler ("onClientPaste", getRootElement (), onClientPasteEditBox)
-            addEventHandler ("onClientCharacter", getRootElement (), onClientCharacterEditBox)
+            addEventHandler ('onClientKey', getRootElement (), onClientKeyEditBox)
+            addEventHandler ('onClientClick', getRootElement (), onClientClickEditBox)
+            addEventHandler ('onClientPaste', getRootElement (), onClientPasteEditBox)
+            addEventHandler ('onClientCharacter', getRootElement (), onClientCharacterEditBox)
             editbox.events = true
         end
     else
@@ -351,13 +322,13 @@ function createEditBox (identify, x, y, width, height, options, postGUI)
 
         v.text = tostring (v.text)
 
-        local text = (#v.text ~= 0 and v.options.masked and string.gsub (v.text, ".", "*") or #v.text == 0 and v.options.othertext or v.text)
+        local text = (#v.text ~= 0 and v.options.masked and string.gsub (v.text, '.', '*') or #v.text == 0 and v.options.othertext or v.text)
         local textWidth = dxGetTextWidth (text, 1, v.options.font) or 0
 
-        dxDrawText (text, x, y, width, height, tocolor (unpack (v.options.text)), 1, v.options.font, (textWidth > width and "right" or "left"), v.options.textalign, (textWidth > width), false, postGUI)
+        dxDrawText (text, x, y, width, height, tocolor (unpack (v.options.text)), 1, v.options.font, (textWidth > width and 'right' or 'left'), v.options.textalign, (textWidth > width), false, postGUI)
 
         if v.options.using then
-            if text ~= "" and text ~= v.options.othertext then
+            if text ~= '' and text ~= v.options.othertext then
                 dxDrawRectangle ((textWidth <= 0 and x or textWidth >= (width - 2.5) and (x + width - 2.5) or (x + textWidth)), y + 2.5, 1, height - 5, tocolor (v.options.text[1], v.options.text[2], v.options.text[3], math.abs (math.sin (getTickCount() / v.options.text[4]) * 255)), postGUI)
             else
                 dxDrawRectangle (x + 1, y + 2.5, 1, height - 5, tocolor (v.options.text[1], v.options.text[2], v.options.text[3], math.abs (math.sin (getTickCount() / v.options.text[4]) * 255)), postGUI)
@@ -381,10 +352,10 @@ function dxDestroyAllEditBox ()
     editbox.actual = false
     editbox.selected = false
     if editbox.events then
-        removeEventHandler ("onClientKey", getRootElement (), onClientKeyEditBox)
-        removeEventHandler ("onClientClick", getRootElement (), onClientClickEditBox)
-        removeEventHandler ("onClientPaste", getRootElement (), onClientPasteEditBox)
-        removeEventHandler ("onClientCharacter", getRootElement (), onClientCharacterEditBox)
+        removeEventHandler ('onClientKey', getRootElement (), onClientKeyEditBox)
+        removeEventHandler ('onClientClick', getRootElement (), onClientClickEditBox)
+        removeEventHandler ('onClientPaste', getRootElement (), onClientPasteEditBox)
+        removeEventHandler ('onClientCharacter', getRootElement (), onClientCharacterEditBox)
         editbox.events = false
     end
     return true
@@ -400,10 +371,10 @@ function dxDestroyEditBox (identify)
         editbox.selected = false
     end
     if not next (editbox.elements) and editbox.events then
-        removeEventHandler ("onClientKey", getRootElement (), onClientKeyEditBox)
-        removeEventHandler ("onClientClick", getRootElement (), onClientClickEditBox)
-        removeEventHandler ("onClientPaste", getRootElement (), onClientPasteEditBox)
-        removeEventHandler ("onClientCharacter", getRootElement (), onClientCharacterEditBox)
+        removeEventHandler ('onClientKey', getRootElement (), onClientKeyEditBox)
+        removeEventHandler ('onClientClick', getRootElement (), onClientClickEditBox)
+        removeEventHandler ('onClientPaste', getRootElement (), onClientPasteEditBox)
+        removeEventHandler ('onClientCharacter', getRootElement (), onClientCharacterEditBox)
         editbox.events = false
     end
     return true
@@ -438,11 +409,11 @@ function onClientKeyEditBox (key, press)
         return false
     end
     local v = editbox.elements[editbox.actual]
-    if key == "backspace" then
+    if key == 'backspace' then
         if press then
             if editbox.selected then
                 if #v.text ~= 0 then
-                    v.text = ""
+                    v.text = ''
                     editbox.selected = false
                 end
             else
@@ -462,17 +433,17 @@ function onClientKeyEditBox (key, press)
             end
         end
     end
-    if key == "v" and getKeyState ("lctrl") then
+    if key == 'v' and getKeyState ('lctrl') then
         return
     end
-    if key == "a" and getKeyState ("lctrl") and #v.text ~= 0 then
+    if key == 'a' and getKeyState ('lctrl') and #v.text ~= 0 then
         if editbox.selected ~= false then
             return
         end
         editbox.selected = editbox.actual
         return
     end
-    if key == "c" and getKeyState ("lctrl") and #v.text ~= 0 then
+    if key == 'c' and getKeyState ('lctrl') and #v.text ~= 0 then
         if not editbox.selected then
             return
         end
@@ -483,9 +454,9 @@ function onClientKeyEditBox (key, press)
 end
 
 function onClientClickEditBox (button, state)
-    if button == "left" and state == "down" then
+    if button == 'left' and state == 'down' then
         for i, v in pairs (editbox.elements) do
-            if cache.functions.Cursor (unpack (v.position)) then
+            if cache['functions'].Cursor (unpack (v.position)) then
                 if editbox.actual then
                     editbox.elements[editbox.actual].options.using = false
                     editbox.actual = false
@@ -510,10 +481,10 @@ function onClientPasteEditBox (textPaste)
     if not editbox.actual then
         return false
     end
-    if textPaste == "" then
+    if textPaste == '' then
         return false
     end
-    editbox.elements[editbox.actual].text = (editbox.selected and textPaste or editbox.elements[editbox.actual].text..""..textPaste)
+    editbox.elements[editbox.actual].text = (editbox.selected and textPaste or editbox.elements[editbox.actual].text..''..textPaste)
     if editbox.selected ~= false then
         editbox.selected = false
     end
@@ -532,14 +503,14 @@ function onClientCharacterEditBox (key)
                 editbox.selected = false
                 return
             end
-            v.text = tonumber (v.text..""..key)
+            v.text = tonumber (v.text..''..key)
         elseif not v.options.onlynumber and tostring (characterDetect) then
             if editbox.selected ~= false then
                 v.text = key
                 editbox.selected = false
                 return
             end
-            v.text = v.text..""..key
+            v.text = v.text..''..key
         end
     end
 end
@@ -548,7 +519,7 @@ end
 
 local buttons = {}
 
-cache.functions.drawRect = function (x, y, width, height, radius, color, colorStroke, sizeStroke, postGUI)
+cache['functions'].drawRect = function (x, y, width, height, radius, color, colorStroke, sizeStroke, postGUI)
     colorStroke = tostring(colorStroke)
     sizeStroke = tostring(sizeStroke)
     
@@ -569,7 +540,7 @@ cache.functions.drawRect = function (x, y, width, height, radius, color, colorSt
 end
 
 
-cache.functions.Fonts = function(font, size)
+cache['functions'].Fonts = function(font, size)
     if (not cache.fonts[font]) then
         cache.fonts[font] = { }
     end

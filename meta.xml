@@ -1,0 +1,21 @@
+<meta>
+    
+    <info author = "[HS]Neto" version = "1.0" name = "Encomenda Exclusiva feita na hyper scripts" description = "www.hyperscripts.com.br" />
+    
+    <!-- Arquivos -->
+    
+    <script src = 'Hyper_G.lua' type = 'shared' cache = 'false'/>
+    <script src = 'nui/source/Hyper_U.lua' type = 'client' cache = 'false'/>    
+    <script src = 'nui/source/Hyper_C.lua' type = 'client' cache = 'false'/>  
+    <script src = 'nui/source/Hyper_S.lua' type = 'server' /> 
+    
+    <!-- Fonts-->
+    
+    <file src = "nui/fonts/Montserrat-Itali-Bold.ttf" cache = "false" />
+    <file src = "nui/fonts/Montserrat-Bold.ttf" cache = "false" />
+    
+    <!-- Versão -->
+
+    <min_mta_version server = "1.5.8-9.20979" ></min_mta_version>
+
+</meta>

@@ -16,7 +16,7 @@
 
 local config = Hyper_Configs
 local gerais = config['gerais']
-
+local util = cache.functions
 
 
 
@@ -30,7 +30,7 @@ util.register = function(event, ...)
      _eventH(event, ...)
 end
 
-local util = cache.functions
+
 local cache = {
      functions = { };
      moneySuff = {'K', 'M', 'B', 'T', 'Q'};

@@ -39,6 +39,10 @@ Hyper_Configs = {
 --]]
 
 
-outputMessage = function(elem, mess, tipo)--- Função de exportação da sua notify.
-  return exports["[HS]Notify_System"]:notify(elem, mess, tipo)
+outputMessage = function(elem, message, tipo, type_)--- Função de exportação da sua notify.
+     if type_ ~= 'client' then
+          return exports['[HS]Notify_System']:notify(elem, message, tipo)
+     else
+          return triggerEvent('HS:notify', elem, {mess = message, type_info = tipo})
+     end
 end

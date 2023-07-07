@@ -12,6 +12,11 @@
 ╚══════════════════════════════════════════════════[ www.hyperscripts.com.br ]═════════════════════════════════════════════════════════════╝
 --]]
 
+-- Globals
+
+local config = Hyper_Configs
+local gerais = config['gerais']
+
 
 
 

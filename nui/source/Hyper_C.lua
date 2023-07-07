@@ -22,6 +22,8 @@ sx, sy = screen[1]/resW, screen[2]/resH
 
 -- Globals
 
+local config = Hyper_Configs
+local gerais = config['gerais']
 
 --local anim = interpolateBetween(-361, 0, 0, 356, 0, 0, (getTickCount() - tick)/1500, 'OutElastic')
 

@@ -14,6 +14,16 @@
 
 -- Globals
 
+local cache = {
+     functions = { };
+     moneySuff = {'K', 'M', 'B', 'T', 'Q'};
+     name = getPlayerName;
+     money = getPlayerMoney;
+     setData = setElementData;
+     timer = setTimer;
+     random = math.random;
+     floor = math.floor;
+}
 local config = Hyper_Configs
 local gerais = config['gerais']
 local util = cache.functions
@@ -31,19 +41,7 @@ util.register = function(event, ...)
 end
 
 
-local cache = {
-     functions = { };
-     moneySuff = {'K', 'M', 'B', 'T', 'Q'};
-     name = getPlayerName;
-     money = getPlayerMoney;
-     setData = setElementData;
-     timer = setTimer;
-     random = math.random;
-     floor = math.floor;
-}
-
-
-util.string.change = function(s, t)
+util.change = function(s, t)
      if not s or type (s) ~= 'string' then
           return error ('Bad argument #1 got \''..type (s)..'\'.');
      end

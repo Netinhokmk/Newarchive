@@ -13,6 +13,43 @@
 --]]
 
 
+-- Globals
+
+
+cache = {
+     functions = { };
+     fonts = { };
+     buttons = { };
+     lerps = { };
+     text = dxDrawText;
+     image = dxDrawImage;
+     rectangle = dxDrawRectangle;
+     data = getElementData;
+     moneySuff = {'K', 'M', 'B', 'T', 'Q'};
+     eventos = { };
+     name = getPlayerName;
+     money = getPlayerMoney;
+     setData = setElementData;
+     timer = setTimer;
+     random = math.random;
+     floor = math.floor;
+     editbox = {
+          actual = false;
+          events = false;
+          elements = { };
+          selected = false;
+     };
+     scrollbar = {
+          actual = false;
+          events = false;
+          elements = { };
+     };
+     indexgrid = { 
+          ['grid'] = 0;
+     };
+}
+
+
 -- Events
 
 _dxDrawText = dxDrawText
@@ -75,40 +112,6 @@ function dxCreateFont( filePath, size, ... )
      return _dxCreateFont( filePath, ( sx * size ), ... )
      
 end
-
-
-cache = {
-     functions = { };
-     fonts = { };
-     buttons = { };
-     lerps = { };
-     text = dxDrawText;
-     image = dxDrawImage;
-     rectangle = dxDrawRectangle;
-     data = getElementData;
-     moneySuff = {'K', 'M', 'B', 'T', 'Q'};
-     eventos = { };
-     name = getPlayerName;
-     money = getPlayerMoney;
-     setData = setElementData;
-     timer = setTimer;
-     random = math.random;
-     floor = math.floor;
-     editbox = {
-          actual = false;
-          events = false;
-          elements = { };
-          selected = false;
-     };
-     scrollbar = {
-          actual = false;
-          events = false;
-          elements = { };
-     };
-     indexgrid = { 
-          ['grid'] = 0;
-     };
-}
 
  
 util.register = function(event, ...)

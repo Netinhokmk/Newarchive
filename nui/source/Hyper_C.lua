@@ -27,19 +27,27 @@ sx, sy = screen[1]/resW, screen[2]/resH
 
 -- local alpha = interpolateBetween(0, 0, 0, 150, 0, 0, ((getTickCount() - tick) / 500), 'Linear')
 
--- cache.functions.createEditBox('pix', 584, 337, 198, 50, {using = false, font = cache.functions.Fonts('Montserrat-Bold', 10), masked = false, onlynumber = false, textalign = 'center', maxcharacters = 50, othertext = 'Chave pix', text = {255, 255, 255, 255}, selected = {255, 255, 255, 255}}, true)
+-- util.createEditBox('pix', 584, 337, 198, 50, {using = false, font = util.Fonts('Montserrat-Bold', 10), masked = false, onlynumber = false, textalign = 'center', maxcharacters = 50, othertext = 'Chave pix', text = {255, 255, 255, 255}, selected = {255, 255, 255, 255}}, true)
 
--- cache.functions.dxDestroyAllEditBox( )
--- cache.functions.dxDestroyEditBox( 'pix' )
--- cache.functions.dxGetEditBoxText( 'pix' )
--- cache.functions.dxSetEditBoxText ('pix', 'texto')
+-- util.dxDestroyAllEditBox( )
+-- util.dxDestroyEditBox( 'pix' )
+-- util.dxGetEditBoxText( 'pix' )
+-- util.dxSetEditBoxText ('pix', 'texto')
 
 
 -- dxSetBlendMode('add')
--- cache.functions.drawRect(436, 288, 493, 182, 7, tocolor(12, 12, 12, alpha), '#FF0000', 0, false)
+-- util.drawRect(436, 288, 493, 182, 7, tocolor(12, 12, 12, alpha), '#FF0000', 0, false)
 -- dxSetBlendMode('blend')
 
 
--- cache['text']('Pesquisar ID', 520, 250, 98, 19, tocolor(45, 45, 54, 255), 1.0, cache.functions.Fonts('Montserrat-Bold', 10), 'center', 'top', false, false, false, false, false)
+-- cache['text']('Pesquisar ID', 520, 250, 98, 19, tocolor(45, 45, 54, 255), 1.0, util.Fonts('Montserrat-Bold', 10), 'center', 'top', false, false, false, false, false)
 -- cache['image'](740, 253, 22, 22, 'nui/interface/search.png', 0, 0, 0, tocolor(255, 255, 255, 255), false)
 -- cache['rectangle'](785, 490, 297, 5, tocolor(255, 255, 255, 255), false)
+
+--util.resetLerps( )
+--util.resetLerp(0, 255)
+--createLerp(0, 255, 1000) - tocolor
+--(130 + createLerp(0, 647, 1000, true)) - render
+
+--util.EventoAtivo( render )
+--util.register
